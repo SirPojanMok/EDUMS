@@ -25,5 +25,9 @@ class Tag(models.Model):
     name = models.CharField(max_length=20)
     slug = models.SlugField(max_length=20)
 
+class Transaction(models.Model):
+
+    item = models.ForeignKey(Item, on_delete=models.CASCADE)
+    buyer = models.ForeignKey(User, on_delete=models.CASCADE)
 
 

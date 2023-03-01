@@ -5,3 +5,8 @@
 {% for tag in tags %}
     <a href="/category/{{ tag.slug }}">{{ tag.name }}</a>
 {% endfor %}
+
+<form method="POST" action="/buy/{{ item.id }}/">
+    {% csrf_token %}
+    <input type="submit" value="Buy">
+</form>
