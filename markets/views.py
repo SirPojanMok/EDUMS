@@ -7,11 +7,15 @@ from django.utils import timezone
 # Create your views here.
 def index(request):
 
+    if not request.user.is_authenticated:
+        return redirect('accounts:signin')
+
     items = Item.objects.all()
 
     return render(request, 'markets/index.html', {'items': items})
 
 def detail(request, pk):
+
     item = Item.objects.get(pk=pk)
     tags = Tag.objects.filter(item=item)
 
@@ -19,9 +23,9 @@ def detail(request, pk):
 
 def category(request, slug):
 
-    tag = Tag.objects.get(slug=slug)
+    tags = Tag.objects.filter(slug=slug)
 
-    return render(request, 'markets/category.html', {'tag': tag})
+    return render(request, 'markets/category.html', {'tags': tags })
 
 def store(request, item_seller):
 

@@ -1,4 +1,7 @@
 {{ item.name }}
+{% if request.user == item.seller %}
+    <p>edit</p>
+{% endif %}
 {% for tag in tags %}
     <a href="/category/{{ tag.slug }}">{{ tag.name }}</a>
 {% endfor %}
