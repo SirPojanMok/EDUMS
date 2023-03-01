@@ -1,0 +1,4 @@
+{{ item.name }}
+{% for tag in tags %}
+    <a href="/category/{{ tag.slug }}">{{ tag.name }}</a>
+{% endfor %}

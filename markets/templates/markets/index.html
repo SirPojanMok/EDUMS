@@ -1,0 +1,18 @@
+<h1>Marketplace</h1>
+<a href="">Logout</a><br>
+<a href="add/">Add item</a><br>
+{% if items %}
+    <ul>
+    {% for item in items %}
+        <li><img src="{{item.image.url}}" width="200px" height="200px"></li>
+        <li><a href='{{ item.id }}'>{{ item.name }}</a></li>
+        <li>{{ item.description }}</li>
+        <li>{{ item.quantity }}</li>
+        <li>{{ item.price }}</li>
+        <li>{{ item.publishedDate }}</li>
+        <li><a href='/store/{{ item.seller }}'>{{ item.seller }}</a></li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No items available</p>
+{% endif %}
