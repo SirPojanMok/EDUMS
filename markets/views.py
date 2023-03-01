@@ -1,8 +1,10 @@
 from django.shortcuts import render, redirect
 from .models import Item, Tag, Transaction
 from django.contrib.auth.models import User
-from .forms import AddItemForm, BuyItemForm
-from django.utils import timezone
+from .forms import  BuyItemForm
+
+from stores.models import Seller
+
 
 # Create your views here.
 def index(request):
@@ -29,28 +31,11 @@ def category(request, slug):
 
 def store(request, item_seller):
     
-    seller = User.objects.get(username=item_seller)
+    user = User.objects.get(username=item_seller)
+    seller = Seller.objects.get(user=user)
     items = Item.objects.filter(seller=seller)
 
     return render(request, 'markets/store.html', {'items': items})
-
-def sell(request):
-
-    if request.method == "POST":
-        form = AddItemForm(request.POST, request.FILES)
-
-        if form.is_valid():
-            formObject = form.save(commit=False)
-            formObject.seller = request.user
-            formObject.publishedDate = timezone.now()
-            formObject.save()
-
-            return redirect('markets:index')
-    
-    else:
-        form = AddItemForm()
-
-    return render(request, 'markets/add.html', {'form': form})
 
 def buy(request, pk):
     item = Item.objects.get(pk=pk)

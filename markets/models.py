@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from stores.models import Seller
 
 # Create your models here.
 
@@ -14,7 +15,7 @@ class Item(models.Model):
     quantity = models.IntegerField(default=1)
     price = models.FloatField()
     publishedDate = models.DateTimeField('date published')
-    seller = models.ForeignKey(User, on_delete=models.CASCADE)
+    seller = models.ForeignKey(Seller, on_delete=models.CASCADE)
 
 class Tag(models.Model):
 

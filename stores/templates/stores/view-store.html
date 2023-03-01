@@ -1,0 +1,5 @@
+{% for item in items %}
+    {{ item.seller.account }}
+    <a href="edit-item/{{ item.id }}">edit</a>
+    <a href="delete-item/{{ item.id }}">delete</a>
+{% endfor %}
