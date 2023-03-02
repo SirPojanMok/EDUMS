@@ -3,7 +3,7 @@ from django.contrib.auth import authenticate
 
 from .forms import CreateStoreForm, DeleteStoreForm, AddItemForm
 from .models import Seller
-from markets.models import Item
+from markets.models import Item, Transaction
 from django.utils import timezone
 
 # Create your views here.
@@ -17,7 +17,7 @@ def createStore(request):
             formObject.user = request.user
             formObject.save()
 
-            return redirect('markets:index')
+            return redirect('stores:my-store')
     else:
         form = CreateStoreForm()
 
@@ -53,7 +53,6 @@ def deleteStore(request):
 
                 return redirect('markets:index')
             
-
     else:
         form = DeleteStoreForm()
 
@@ -71,7 +70,7 @@ def addItem(request):
             formObject.publishedDate = timezone.now()
             formObject.save()
 
-            return redirect('markets:index')
+            return redirect('stores:my-store')
     
     else:
         form = AddItemForm()
@@ -88,7 +87,7 @@ def editItem(request, pk):
         if form.is_valid():
             form.save()
 
-            return redirect('markets:index')
+            return redirect('stores:my-store')
     
     else:
         form = AddItemForm(instance=item)
@@ -102,6 +101,13 @@ def deleteItem(request, pk):
     if request.method == "POST":
         item.delete()
 
-        return redirect('markets:index')
+        return redirect('stores:my-store')
 
     return render(request, 'stores/delete-item.html', {'item': item})
+
+def transaction(request):
+
+    seller = Seller.objects.get(user=request.user)
+    transactions = Transaction.objects.filter(seller=seller)
+
+    return render(request, 'stores/transaction.html', {'transactions': transactions})

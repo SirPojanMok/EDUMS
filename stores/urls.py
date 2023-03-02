@@ -3,10 +3,11 @@ from . import views
 app_name = 'stores'
 
 urlpatterns = [
+    path('', views.viewStore, name='my-store'),
+    path('transaction/', views.transaction, name='transaction'),
     path('create-store/', views.createStore, name='create-store'),
-    path('my-store/', views.viewStore, name='my-store'),
-    path('my-store/delete/', views.deleteStore, name='delete-store'),
-    path('my-store/add-item/', views.addItem, name='add-item'),
-    path('my-store/edit-item/<int:pk>/', views.editItem, name='edit-item'),
-    path('my-store/delete-item/<int:pk>/', views.deleteItem, name='edit-item'),
+    path('delete-store/', views.deleteStore, name='delete-store'),
+    path('add-item/', views.addItem, name='add-item'),
+    path('edit-item/<int:pk>/', views.editItem, name='edit-item'),
+    path('delete-item/<int:pk>/', views.deleteItem, name='edit-item'),
 ]
