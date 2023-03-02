@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from .models import Item, Tag, Transaction
 from django.contrib.auth.models import User
 from .forms import  BuyItemForm
-
+from django.utils import timezone
 from stores.models import Seller
 
 
@@ -42,12 +42,11 @@ def buy(request, pk):
 
     if request.method == "POST":
         form = BuyItemForm(request.POST)
-        transaction = Transaction(item = item, buyer = request.user)
 
         if form.is_valid():
-
             quantity = form.cleaned_data['quantity']
-
+            total = quantity * item.price
+            transaction = Transaction(item=item.name, quantity=quantity, total=total, boughtDate=timezone.now(), buyer=request.user, seller=item.seller)
             item.quantity -= quantity
 
             item.save()
