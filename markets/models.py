@@ -28,7 +28,17 @@ class Tag(models.Model):
 
 class Transaction(models.Model):
 
-    item = models.ForeignKey(Item, on_delete=models.CASCADE)
-    buyer = models.ForeignKey(User, on_delete=models.CASCADE)
+    def __str__(self):
+
+        return str(self.buyer) + ' bought ' + self.item + ' from ' + str(self.seller) + ' at ' + str(self.boughtDate)
+    
+    item = models.CharField(max_length=20)
+    quantity = models.IntegerField(default=1)
+    total = models.FloatField()
+    boughtDate = models.DateTimeField('transaction time')
+    buyer = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
+    seller = models.ForeignKey(Seller, on_delete=models.SET_NULL, null=True)
+
+
 
 
