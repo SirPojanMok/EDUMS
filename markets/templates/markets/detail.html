@@ -1,12 +1,133 @@
-{{ item.name }}
-{% if request.user == item.seller %}
-    <p>edit</p>
-{% endif %}
-{% for tag in tags %}
-    <a href="/category/{{ tag.slug }}">{{ tag.name }}</a>
-{% endfor %}
+<head>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@100;300;400&display=swap" rel="stylesheet">
+</head>
 
-<form method="POST" action="/buy/{{ item.id }}/">
-    {% csrf_token %}
-    <input type="submit" value="Buy">
-</form>
+
+<ul class="flex-container">
+    <li><img src="{{ item.image.url }}" width="450px" height="100%"></li>
+    <div class="item-container">
+        <li class="item-name"><h1>{{ item.name }}</h1></li>
+        <li class="item-price"><h2>RM {{ item.price }}</h2></li>
+        <li class="item-description">Description {{ item.description }}</li>
+        <li class="item-quantity">Quantity {{ item.quantity }} Available</li>
+        <div class="tags-container">
+        {% for tag in tags %}
+            <a href="/category/{{ tag.slug }}">{{ tag.name }}</a>
+        {% endfor %}
+        </div>
+        <form class="submit-btn" method="POST" action="/buy/{{ item.id }}/">
+            {% csrf_token %}
+            {% if user == item.seller.user %}
+                <p>Edit</p>
+            {% else %}
+                <input type="submit" value="Buy Now">
+            {% endif %}
+        </form>
+    </div>
+</ul>
+
+<div class="shop-container">
+    <a class="item-seller" href="/store/{{item.seller}}"><h1>{{ item.seller }} | View Shop</h1></a>
+    <div class="grid-container">
+        {% for otherItem in items %}
+            {% if otherItem.id != item.id %}
+                <div class="grid-container-{{ otherItem.id }}">
+                    <a href='{{ otherItem.id }}'>
+                        <ul>
+                            <li><img src="{{otherItem.image.url}}" width="180px" height="180px"></li>
+                            <li><span class='otherItem-name'>{{ otherItem.name }}</span></li>
+                            <li><span class="otherItem-price">RM {{ otherItem.price }}</span></li>
+                        </ul>
+                    </a>
+                </div>
+            {% endif %}
+        {% endfor %}
+    </div>
+</div>
+<style>
+    .shop-container {
+        background-color: whitesmoke;
+        padding-bottom: 50px;
+        margin-left: 200px;
+        margin-right: 200px;
+    }
+    a {
+        text-decoration: none;
+    }
+    .item-seller {
+        display: block;
+        padding-left: 40px;
+    }
+
+    .item-container {
+        background-color: white;
+        position: relative;
+        width: 100%;
+    }
+
+    .item-container > li {
+        padding-left: 20px;
+    }
+
+    .tags-container {
+        position: absolute;
+        bottom: 20%;
+        padding-left: 20px;
+    }
+
+    .flex-container {
+        display: flex;
+        gap: 30px;
+        padding-top: 100px;
+        padding-left: 200px;
+        padding-right: 200px;
+
+    }
+
+    form {
+        position: absolute;
+        bottom: 0;
+        padding-left: 20px;
+    }
+
+    html {
+        overflow-x: hidden;
+        font-family: 'Lato', sans-serif;
+        background-color: #b3cde0;
+    }
+
+    ul {
+        padding: 0;
+        margin: 0;
+        font-size: 16px;
+        list-style-type:none;
+    }
+
+    input {
+        font-size: 24px;
+        border: none;
+        padding: 5px;
+    }
+
+    .grid-container {
+        display: flex;
+        justify-content: center;
+        gap: 30px;
+    }
+
+    .grid-container > div {
+        transition: transform .2s;
+        box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);
+        position: relative;
+        width: 180px;
+        height: 250px;
+        background-color: #FAFAFB;
+        text-align: left;
+    }
+
+    .grid-container > div:hover{
+        transform: scale(1.05);
+    }
+</style>

@@ -1,5 +1,61 @@
-{% for item in items %}
-    {{ item.seller.account }}
-    <a href="edit-item/{{ item.id }}">edit</a>
-    <a href="delete-item/{{ item.id }}">delete</a>
-{% endfor %}
+<head>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@100;300;400&display=swap" rel="stylesheet">
+</head>
+
+<div class="table-container">
+    <table>
+        <tr>
+            <th>ID</th>
+            <th>Image</th>
+            <th>Name</th>
+            <th>Price</th>
+            <th>Description</th>
+            <th>Quantity</th>
+            <th>Published on</th>
+            <th>Action</th>
+        </tr>
+        {% for item in items %}
+            <tr>
+                <th>{{ item.id }}</th>
+                <th><img src="{{ item.image.url }}" width="100px"></th>
+                <th>{{ item.name }}</th>
+                <th>{{ item.price }}</th>
+                <th>{{ item.description }}</th>
+                <th>{{ item.quantity }}</th>
+                <th>{{ item.publishedDate.date }}</th>
+                <th>
+                    <a href="edit-item/{{ item.id }}">Edit</a>
+                    <a href="delete-item/{{ item.id }}">Delete</a>
+                </th>
+            </tr>
+        {% endfor %}
+    </table>
+</div>
+
+
+<style>
+    html {
+        overflow-x: hidden;
+        font-family: 'Lato', sans-serif;
+        background-color: #b3cde0;
+    }
+
+    .table-container {
+        padding-left: 200px;
+        padding-right: 200px;
+        padding-top: 100px;
+    }
+    table {
+        width: 100%;
+        background-color: white;
+        border-collapse: collapse;
+    }
+
+    td, th {
+        border: 1px solid #dddddd;
+        text-align: center;
+        padding: 10px;
+    }
+</style>

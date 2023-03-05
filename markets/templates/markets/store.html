@@ -1,5 +1,80 @@
 {{ items.0.seller }}
 
-{% for item in items %}
-    {{ item.name }}
-{% endfor %}
+<div class="grid-container">
+    {% for item in items %}
+        {% if not item.is_published_today %}
+            <div class="grid-container-{{ item.id }}">
+                <a href='/{{ item.id }}'>
+                    <ul>
+                        <li><img src="{{item.image.url}}" width="180px" height="180px"></li>
+                        <li><span class='item-name'>{{ item.name }}</span></li>
+                        <li><span class="item-price">RM {{ item.price }}</span></li>
+                    </ul>
+                </a>
+            </div>
+        {% endif %}
+    {% endfor %}
+</div>
+
+<style>
+    html {
+        overflow-x: hidden;
+        font-family: 'Lato', sans-serif;
+        background-color: #b3cde0;
+    }
+    .grid-container {
+        display: grid;
+        grid-template-columns: auto auto auto auto auto auto;
+        grid-auto-rows: 250px;
+        row-gap: 20px;
+        padding-left: 150px;
+        padding-right: 150px;
+        padding-bottom: 50px;
+        place-items: left;
+    }
+
+    .grid-container > div {
+        transition: transform .2s;
+        box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);
+        position: relative;
+        width: 180px;
+        height: 250px;
+        background-color: #FAFAFB;
+        text-align: left;
+    }
+
+    ul {
+        font-family: 'Lato', sans-serif;
+        padding: 0;
+        margin: 0;
+        font-size: 16px;
+        list-style-type:none;
+    }
+
+    a {
+        display:block;
+        text-decoration: none;
+        color: black;
+        width: 100%;
+        height: 100%;
+    }
+
+    .item-name {
+        font-weight: 300;
+        position: absolute;
+        left: 5%;
+        bottom: 15%;
+    }
+
+    .item-price {
+        font-weight: 400;
+        color: #a2d5c6;
+        position:absolute;
+        left: 5%;
+        bottom: 1%;
+    }
+
+    .grid-container > div:hover{
+        transform: scale(1.05);
+    }
+</style>

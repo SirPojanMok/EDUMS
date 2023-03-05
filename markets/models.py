@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from stores.models import Seller
+from django.utils import timezone
 
 # Create your models here.
 
@@ -16,6 +17,10 @@ class Item(models.Model):
     price = models.FloatField()
     publishedDate = models.DateTimeField('date published')
     seller = models.ForeignKey(Seller, on_delete=models.CASCADE)
+
+    @property
+    def is_published_today(self):
+        return self.publishedDate.day == timezone.now().day
 
 class Tag(models.Model):
 

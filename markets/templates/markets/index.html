@@ -1,17 +1,160 @@
-<h1>Marketplace</h1>
-<a href="accounts/signout/">Logout</a><br>
+<head>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@100;300;400&display=swap" rel="stylesheet">
+</head>
+<header>
+    <a href="/accounts/signout/">Sign out</a>
+</header>
+<h1>MARKET</h1>
+
 {% if items %}
-    <ul>
+
+    {% if today %}
+    <h2>Posted Today</h2>
+    <div class="flex-container">
+        <div class="flex-container-left-arrow"></div>
     {% for item in items %}
-        <li><img src="{{item.image.url}}" width="200px" height="200px"></li>
-        <li><a href='{{ item.id }}'>{{ item.name }}</a></li>
-        <li>{{ item.description }}</li>
-        <li>{{ item.quantity }}</li>
-        <li>{{ item.price }}</li>
-        <li>{{ item.publishedDate }}</li>
-        <li><a href='/store/{{ item.seller }}'>{{ item.seller }}</a></li>
+        {% if item.is_published_today %}
+            <div class="flex-container-{{ item.id }}">
+                <a href='{{ item.id }}'>
+                    <ul>
+                        <li><img src="{{item.image.url}}" width="180px" height="180px"></li>
+                        <li><span class='item-name'>{{ item.name }}</span></li>
+                        <li><span class="item-price">RM {{ item.price }}</span></li>
+                    </ul>
+                </a>
+            </div> 
+        {% endif %}
     {% endfor %}
-    </ul>
+        <div class="flex-container-right-arrow"></div>
+    </div>
+    {% endif %}
+
+    <h2>Explore</h2>
+    <div class="grid-container">
+    {% for item in items %}
+        {% if not item.is_published_today %}
+            <div class="grid-container-{{ item.id }}">
+                <a href='{{ item.id }}'>
+                    <ul>
+                        <li><img src="{{item.image.url}}" width="180px" height="180px"></li>
+                        <li><span class='item-name'>{{ item.name }}</span></li>
+                        <li><span class="item-price">RM {{ item.price }}</span></li>
+                    </ul>
+                </a>
+            </div>
+        {% endif %}
+    {% endfor %}
+    </div>
+    
 {% else %}
     <p>No items available</p>
 {% endif %}
+
+
+
+<style>
+    html {
+        overflow-x: hidden;
+        font-family: 'Lato', sans-serif;
+        background-color: #b3cde0;
+    }
+    h1 {
+        text-align: center;
+
+        font-weight: 300;
+    }
+    h2 {
+        text-align: center;
+    }
+
+    .flex-container {
+        display: flex;
+        gap: 20px;
+        flex-direction: row;
+        padding-left: 130px;
+        padding-right: 130px;
+        padding-bottom: 50px;
+        place-items: left;
+    }
+
+    .flex-container > div {
+        transition: transform .2s;
+        box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);
+        background-color: #FAFAFB;
+        position: relative;
+        text-align: left;
+        height: 250px;
+    }
+
+    .flex-container > div:hover{
+        transform: scale(1.05);
+    }
+
+    .grid-container {
+        display: grid;
+        grid-template-columns: auto auto auto auto auto auto;
+        grid-auto-rows: 250px;
+        row-gap: 20px;
+        padding-left: 150px;
+        padding-right: 150px;
+        padding-bottom: 50px;
+        place-items: left;
+    }
+
+    .grid-container > div {
+        transition: transform .2s;
+        box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);
+        position: relative;
+        width: 180px;
+        height: 250px;
+        background-color: #FAFAFB;
+        text-align: left;
+    }
+
+    ul {
+        font-family: 'Lato', sans-serif;
+        padding: 0;
+        margin: 0;
+        font-size: 16px;
+        list-style-type:none;
+    }
+
+    header {
+        position: relative;
+    }
+    a {
+        text-decoration: none;
+        display: block;
+        position: absolute;
+        right: 0;
+    }
+
+    .grid-container > div > a {
+        display:block;
+        text-decoration: none;
+        color: black;
+        width: 100%;
+        height: 100%;
+    }
+
+    .item-name {
+        font-weight: 300;
+        position: absolute;
+        left: 5%;
+        bottom: 15%;
+    }
+
+    .item-price {
+        font-weight: 400;
+        color: #a2d5c6;
+        position:absolute;
+        left: 5%;
+        bottom: 1%;
+    }
+
+    .grid-container > div:hover{
+        transform: scale(1.05);
+    }
+</style>

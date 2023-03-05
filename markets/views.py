@@ -13,15 +13,19 @@ def index(request):
         return redirect('accounts:signin')
 
     items = Item.objects.all()
+    today = Item.objects.filter(publishedDate__day = timezone.now().day)
 
-    return render(request, 'markets/index.html', {'items': items})
+    return render(request, 'markets/index.html', {'items': items, 'today': today})
 
 def detail(request, pk):
 
     item = Item.objects.get(pk=pk)
+    user = User.objects.get(username=item.seller)
+    seller = Seller.objects.get(user=user)
+    items = Item.objects.filter(seller=seller).exclude(pk=pk)[:5]
     tags = Tag.objects.filter(item=item)
 
-    return render(request, 'markets/detail.html', {'item': item, 'tags': tags})
+    return render(request, 'markets/detail.html', {'item': item, 'tags': tags, 'items':items})
 
 def category(request, slug):
 
